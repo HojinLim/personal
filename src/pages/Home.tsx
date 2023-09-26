@@ -11,7 +11,7 @@ import {
   PieChartOutlined,
 } from "@ant-design/icons";
 import Body from "./Body";
-
+//hi
 const Home = () => {
   const movies = useAppSelector((state) => state.movies);
   // console.log(movies)

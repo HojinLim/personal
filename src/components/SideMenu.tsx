@@ -7,9 +7,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AppBar, Box, CssBaseline, Divider, Drawer } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "./supabase";
+import { UserType } from "../types/type";
 
 interface Props {
   /**
@@ -20,7 +22,7 @@ interface Props {
 }
 
 const drawerWidth = 240;
-const navItems = ["Home", "About", "Login", "Register"];
+const navItems = ["Home", "About", "Login", "SignOut", "Register"];
 
 export default function DrawerAppBar(props: Props) {
   const { window } = props;
@@ -48,6 +50,20 @@ export default function DrawerAppBar(props: Props) {
     </Box>
   );
 
+  // 로그아웃
+  const signOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.log(error.message);
+    } else {
+      localStorage.removeItem("user_token");
+      localStorage.removeItem("user_id");
+
+      alert("로그아웃 완료!");
+      navigate("/");
+    }
+  };
+
   const movePageHandler = (item: string) => {
     switch (item) {
       case "Home": {
@@ -62,11 +78,40 @@ export default function DrawerAppBar(props: Props) {
         navigate("/register");
         break;
       }
+      case "Login": {
+        navigate("/login");
+        break;
+      }
+      case "SignOut": {
+        signOut();
+
+        break;
+      }
     }
   };
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
+
+  const uid = localStorage.getItem("user_id");
+  const [userData, setUserData] = useState<UserType>();
+
+  useEffect(() => {
+    if (uid) {
+      supabase
+        .from("users")
+        .select("*")
+        .eq("id", uid)
+        .single()
+        .then((response) => {
+          setUserData(response.data);
+          // console.log(response.data.email);
+        });
+
+      console.log(userData);
+      // console.log(data);
+    }
+  }, [uid]);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -102,6 +147,7 @@ export default function DrawerAppBar(props: Props) {
           </Box>
         </Toolbar>
       </AppBar>
+
       <nav>
         <Drawer
           container={container}
@@ -122,11 +168,10 @@ export default function DrawerAppBar(props: Props) {
           {drawer}
         </Drawer>
       </nav>
+
       <Box component="main" sx={{ p: 3 }}>
         <Toolbar />
-        <Typography>
-            
-        `</Typography>
+        <Typography>current user: {userData?.email}</Typography>
       </Box>
     </Box>
   );

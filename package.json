@@ -9,6 +9,7 @@
     "@mui/icons-material": "^5.14.9",
     "@mui/material": "^5.14.10",
     "@mui/styles": "^5.14.10",
+    "@react-google-maps/api": "^2.19.2",
     "@reduxjs/toolkit": "^1.9.6",
     "@supabase/auth-ui-react": "^0.4.5",
     "@supabase/auth-ui-shared": "^0.1.7",

@@ -22,7 +22,7 @@ interface Props {
 }
 
 const drawerWidth = 240;
-const navItems = ["Home", "About", "Login", "SignOut", "Register"];
+const navItems = ["Map", "Login", "SignOut", "My Profile", "Register"];
 
 export default function DrawerAppBar(props: Props) {
   const { window } = props;
@@ -66,12 +66,8 @@ export default function DrawerAppBar(props: Props) {
 
   const movePageHandler = (item: string) => {
     switch (item) {
-      case "Home": {
-        navigate("/");
-        break;
-      }
-      case "About": {
-        navigate("/about");
+      case "Map": {
+        navigate("/map");
         break;
       }
       case "Register": {
@@ -131,6 +127,9 @@ export default function DrawerAppBar(props: Props) {
             variant="h6"
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            onClick={() => {
+              navigate("/");
+            }}
           >
             RandomMap
           </Typography>

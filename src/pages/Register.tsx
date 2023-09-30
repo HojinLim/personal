@@ -7,7 +7,6 @@ import React, {
 } from "react";
 import { useInput } from "../hooks/useInput";
 import { supabase } from "../components/supabase";
-import { getUserData } from "../api/auth";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
@@ -54,13 +53,7 @@ const Register = () => {
       <Typography variant="h4" align="center" gutterBottom>
         회원가입
       </Typography>
-      <button
-        onClick={() => {
-          getUserData;
-        }}
-      >
-        test
-      </button>
+
       <form>
         <TextField
           label="이메일"
